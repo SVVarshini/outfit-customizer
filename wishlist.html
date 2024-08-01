@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Recommendation</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('bg.jpg'); 
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.selector {
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.recommendation {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fashion Recommendation</h1>
+        <div class="selector">
+            <label for="occasion">Occasion:</label>
+            <select id="occasion">
+                <option value="casual">Casual</option>
+                <option value="formal">Formal</option>
+                <option value="sporty">Sporty</option>
+            </select>
+        </div>
+        <button id="recommendButton">Get Outfit Recommendation</button>
+        <div id="recommendation" class="recommendation"></div>
+    </div>
+    <script>
+const outfits = {
+    casual: [
+        { name: "T-shirt and jeans", image: "images/casual1.jpg" },
+        { name: "Casual shirt and shorts", image: "images/casual2.jpg" },
+        { name: "Sweater and joggers", image: "images/casual3.jpg" }
+    ],
+    formal: [
+        { name: "Suit and tie", image: "images/formal1.jpg" },
+        { name: "Dress shirt and trousers", image: "images/formal2.jpg" },
+        { name: "Blazer and chinos", image: "images/formal3.jpg" }
+    ],
+    sporty: [
+        { name: "Sports jersey and leggings", image: "images/sporty1.jpg" },
+        { name: "Track jacket and shorts", image: "images/sporty2.jpg" },
+        { name: "Athletic shirt and sweatpants", image: "images/sporty3.jpg" }
+    ]
+};
+
+document.getElementById('recommendButton').addEventListener('click', function() {
+    const occasion = document.getElementById('occasion').value;
+    const recommendations = outfits[occasion];
+    const randomRecommendation = recommendations[Math.floor(Math.random() * recommendations.length)];
+    const recommendationDiv = document.getElementById('recommendation');
+
+    recommendationDiv.innerHTML = `
+        <div>
+            <img src="${randomRecommendation.image}" alt="${randomRecommendation.name}" />
+            <p>${randomRecommendation.name}</p>
+            <button onclick="addToWishlist('${randomRecommendation.name}', '${randomRecommendation.image}')">Add to Wishlist</button>
+        </div>
+    `;
+});
+
+function addToWishlist(name, image) {
+    const wishlist = document.getElementById('wishlist');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+        <img src="${image}" alt="${name}" />
+        <span>${name}</span>
+        <button onclick="removeFromWishlist(this)">Remove</button>
+    `;
+    wishlist.appendChild(listItem);
+}
+
+function removeFromWishlist(button) {
+    const wishlist = document.getElementById('wishlist');
+    wishlist.removeChild(button.parentElement);
+}
+</script>
+</body>
+</html>
