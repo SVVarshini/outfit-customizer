@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background-image: url('bg.jpg');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.auth-form {
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-form h2 {
+    margin-bottom: 20px;
+    color: #4CAF50;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+}
+
+.auth-form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.auth-form input {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.auth-form input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.auth-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-form button:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.auth-form .forgot-password, .auth-form #toggle-form {
+    display: block;
+    margin-top: 15px;
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.auth-form .forgot-password:hover, .auth-form #toggle-form:hover {
+    text-decoration: underline;
+}
+
+
+
+@media (max-width: 480px) {
+    .auth-form {
+        padding: 20px;
+    }
+    .auth-form h2 {
+        font-size: 20px;
+    }
+    .auth-form input, .auth-form button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}</style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-form">
+            <h2 id="form-title">Login</h2>
+            <form id="auth-form" action="/submit" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="email" >Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Login</button>
+                <a href="#" id="forgot-password" class="hidden">Forgot Password?</a>
+                <a href="#" id="toggle-form">Don't have an account? Sign Up</a>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('toggle-form').addEventListener('click', function (e) {
+            e.preventDefault();
+            const isLogin = document.getElementById('form-title').innerText === 'Login';
+            document.getElementById('form-title').innerText = isLogin ? 'Sign Up' : 'Login';
+            document.getElementById('auth-form').action = isLogin ? '/signup' : '/login';
+            document.getElementById('email').classList.toggle('hidden', isLogin);
+            document.getElementById('forgot-password').classList.toggle('hidden', isLogin);
+            this.innerText = isLogin ? "Already have an account? Login" : "Don't have an account? Sign Up";
+        });
+    </script>
+</body>
+</html>
