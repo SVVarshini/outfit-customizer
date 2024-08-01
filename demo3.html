@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('bg.jpg'); 
+            background-size: cover;
+            background-position: center; 
+            background-repeat: no-repeat; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.8); 
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s, border-bottom 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #4a90e2;
+            border-bottom: 2px solid #4a90e2;
+        }
+
+        nav a:hover::after {
+            content: attr(data-hover);
+            position: absolute;
+            left: 50%;
+            bottom: -50px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-box input[type="text"] {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .search-box button {
+            border: none;
+            background-color: #4a90e2;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-box button:hover {
+            background-color: #357ab8;
+        }
+
+        .upload-section {
+            display: none; /* Hide by default */
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            padding: 8px 16px;
+            border: 2px solid #4a90e2;
+            background-color: #4a90e2;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .upload-label:hover {
+            background-color: #357ab8;
+            border-color: #357ab8;
+        }
+
+        form div {
+            margin-bottom: 20px; 
+        }
+
+        form div:last-child {
+            margin-bottom: 0;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: none;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .results-section {
+            margin-top: 25px;
+        }
+
+        .results-section h2 {
+            margin: 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .results-section p, .results-section ul {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .results-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .results-section ul li {
+            background-color: #f1f1f1;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .login-signup {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .login-signup-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 250px; /* Adjusted width for a more spacious box */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border-radius: 8px; /* Rounded corners for the box */
+            z-index: 1;
+            padding: 10px; /* Add padding inside the box */
+            border: 1px solid #d1e7dd; /* Light green border to match the green theme */
+        }
+
+        .login-signup-content a {
+            color: #28a745; /* Green text color */
+            padding: 15px 20px; /* Larger padding for bigger items */
+            text-decoration: none;
+            display: block;
+            font-size: 18px; /* Larger text size */
+        }
+
+        .login-signup-content a:hover {
+            background-color: #e2f0e6; /* Light green background on hover */
+        }
+
+        .login-signup:hover .login-signup-content {
+            display: block;
+        }
+
+        .login-signup:hover .login-signup-btn {
+            background-color: #28a745; /* Green button color */
+            color: #fff; /* White text color on button */
+        }
+
+        .content-container {
+            margin-top: 80px; /* Adjust to avoid overlapping with fixed header */
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            display: flex;
+        }
+
+        .main-content {
+            flex: 3;
+        }
+
+        .sidebar {
+            flex:3;
+            margin: 50px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 70px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar p {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <nav>
+                <a href="#home">Home</a>                  
+                <a href="#product">Wishlist</a>
+                <a href="#contact-us">Contact Us</a>
+            </nav>
+            <div class="logo">
+                <img src="logo.jpeg" alt="Logo"> <!-- Update path to your logo image -->
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button type="button" onclick="toggleUploadSection()">Search</button>
+                <div class="upload-section" id="uploadSection">
+                    <label for="imageUpload" class="upload-label">Choose an image</label>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)">
+                </div>
+            </div>
+            <div class="login-signup">
+                <button class="login-signup-btn">Login / Sign Up</button>
+                <div class="login-signup-content">
+                    <a href="#login" onclick="loadLoginPage()">Login</a>
+                    <a href="#signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container" id="contentContainer">
+        <!-- Main content and sidebar -->
+        <div class="main-content">
+            <!-- Content from other pages will be loaded here -->
+        </div>
+ <div class="sidebar">
+            <h5><center><B>WELCOME TO VTHREE!</center></B><h5>
+
+<p>We are VTHREE: Varshini, Vaishnavi, and Vardhine. Our brand name embodies the unity and strength we bring to every project. As a team, we combine our unique talents and perspectives to create innovative solutions and drive success.
+
+At VTHREE, collaboration is our cornerstone. We are dedicated to excellence and innovation, ensuring that our collective efforts produce outstanding results. Join us as we embark on this journey together, making a meaningful impact through our shared vision and dedication.
+</p>
+</div>
+       <div class="sidebar">
+            <h5><center> <b>ABOUT US</center></b></h5>
+<p>We are VTHREE, and our mission is to revolutionize the way you approach fashion by helping you customize your dressing sense with ease. Our website is designed to assist you in making stylish decisions effortlessly. For instance, when you upload a picture of a shirt to our platform, our advanced algorithm will suggest matching pants, jewelry, and accessories to create a perfect ensemble. We understand that deciding on the ideal outfit can be time-consuming in our daily lives. That's why VTHREE is here to streamline the process and save you valuable time, allowing you to look your best with minimal effort.</p>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="image-section">
+            <img id="uploadedImage" alt="Uploaded Image">
+        </div>
+    </div>
+
+    <script>
+        function loadLoginPage() {
+            fetch('login.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('contentContainer').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading login page:', error));
+        }
+
+        function previewImage(event) {
+            const uploadedImage = document.getElementById('uploadedImage');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    uploadedImage.src = e.target.result;
+                    uploadedImage.style.display = 'block';
+
+                    // Simulate detection and recommendation process
+                    detectFashionItem();
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function detectFashionItem() {
+            // This is a placeholder function. In a real application, you would send the image to your backend for processing.
+            // Simulating detected item and recommendations
+            const detectedItem = 't-shirt';
+            const recommendations = ['jeans', 'sneakers', 'watch'];
+
+            document.getElementById('detectedItem').innerText = detectedItem;
+
+            const recommendationsList = document.getElementById('recommendations');
+            recommendationsList.innerHTML = '';
+            recommendations.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.innerText = item;
+                recommendationsList.appendChild(listItem);
+            });
+        }
+
+        function toggleUploadSection() {
+            const uploadSection = document.getElementById('uploadSection');
+            if (uploadSection.style.display === 'flex') {
+                uploadSection.style.display = 'none';
+            } else {
+                uploadSection.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
